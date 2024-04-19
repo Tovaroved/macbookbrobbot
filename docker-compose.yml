@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  web-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web-app
+    image: macbookbro
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    command: >
+      gunicorn -w 4 -b 0.0.0.0:8000 app:app
+
+  nginx:
+    build:
+      context: ./nginx/
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
