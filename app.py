@@ -1,5 +1,4 @@
 from flask import Flask
-from apps.tg.main import bot
 from utils.extensions import db, DB_URL
 from apps.routes import routers
 
@@ -12,7 +11,6 @@ def create_app(test_config=None):
     db.init_app(app)
 
     app.register_blueprint(routers)
-    bot.init_app(app)
     return app
 
 

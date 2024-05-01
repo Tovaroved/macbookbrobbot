@@ -22,3 +22,14 @@ def arriving_date(timestamp):
         next_week_friday = dt_object + timedelta(days=days_until_next_friday + 14)
         return next_week_friday
     #TODO Проверка по времени
+
+
+def validate_track_number(track_number):
+    """ Проверяем трек номер если длина меньше или равна 10 записываем полностью,
+        если нет последние 10 символов: так как шиппер иногда может менять первую 
+        часть трек номера """
+    length = len(track_number)
+    if length<=10:
+        return track_number
+    else:
+        return track_number[-10]

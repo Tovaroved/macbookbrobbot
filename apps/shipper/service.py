@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from .models import Shipper
 
 
-headers= {'Authorization':'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOTg2NH0.7NBFKQH1zLk6BdkQh6ZDBBGYl-uM5npAXkGv_lBGvHY'}
-
+# headers= {'Authorization':'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOTg2NH0.7NBFKQH1zLk6BdkQh6ZDBBGYl-uM5npAXkGv_lBGvHY'} # Антон
+headers= {'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0MzE4OX0.URp-X1LowI5_FbxXdv0LtMciRFYrLSXyMHH07BQPSjM'} # Уран
 
 def get_list():
     url = 'https://api.shipper.space/v1/orders/in_progress'

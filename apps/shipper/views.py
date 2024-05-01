@@ -3,12 +3,12 @@ from utils.extensions import db
 from ..utils import encode_date, arriving_date
 from .service import get_list
 from .models import Shipper
-
+import json
 
 shipperRouter = Blueprint('shipper', __name__, url_prefix='/shipper')
 
 
-@shipperRouter.route('/pars', methods=['GET','POST'])
+@shipperRouter.route('/packages', methods=['GET','POST'])
 def get_data():
     data = get_list()
     for iter in range(len(data)):
@@ -21,5 +21,4 @@ def get_data():
                         )
             db.session.add(obj)
             db.session.commit()
-
-    return {"status":"success"}
+    return {"status":"success", "data": data}
