@@ -1,8 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from utils.extensions import db
-from ..utils import encode_date, arriving_date
 from .service import get_list
 from .models import Shipper
+from .modules import PackagesDB
 import json
 
 shipperRouter = Blueprint('shipper', __name__, url_prefix='/shipper')
@@ -10,15 +10,21 @@ shipperRouter = Blueprint('shipper', __name__, url_prefix='/shipper')
 
 @shipperRouter.route('/packages', methods=['GET','POST'])
 def get_data():
-    data = get_list()
-    for iter in range(len(data)):
-        if not Shipper.query.get(data[iter].get('id')):
-            obj = Shipper(id=data[iter].get('id'),
-                        title=data[iter].get('description'),
-                        track_number=data[iter].get('tracking_number'),
-                        created_date=encode_date(data[iter].get('created_at')),
-                        coming_date=arriving_date(data[iter].get('created_at'))
-                        )
-            db.session.add(obj)
-            db.session.commit()
+    # Получаем chat_id чтобы транслировать ошибки если они есть
+    chat_id = request.data.get('chat_id')
+    week = request.data.get('week')
+
+    # Отправляем запрос на получени данных из API Shipper
+    data: dict = get_list(chat_id)
+
+    # При успешном запросе создаем новые и обновляем старые данные в БД
+    if "ERROR" not in data:
+        packages: list[Shipper] = PackagesDB(data)
+    else:
+        return packages
+    
+    if isinstance(packages, list):
+        ...
+    
+
     return {"status":"success", "data": data}

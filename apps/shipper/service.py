@@ -1,27 +1,37 @@
 import requests
 from datetime import datetime, timedelta
 from .models import Shipper
+from decouple import config
+
+from app import macbrobot
 
 
-# headers= {'Authorization':'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOTg2NH0.7NBFKQH1zLk6BdkQh6ZDBBGYl-uM5npAXkGv_lBGvHY'} # Антон
-headers= {'Authorization': 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0MzE4OX0.URp-X1LowI5_FbxXdv0LtMciRFYrLSXyMHH07BQPSjM'} # Уран
 
-def get_list():
+def get_list(chat_id):
     url = 'https://api.shipper.space/v1/orders/in_progress'
-    response = requests.get(url=url,
-                            headers=headers)
-    return response.json()
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            response_uran = requests.get(url=url, headers=config('uran'))
+            response_altai = requests.get(url=url, headers=config('altai'))
+
+            return {'sulaimanovuran@gmail.com': response_uran.json(), 'macbookbrogoods@gmail.com': response_altai.json()}
+        
+        except Exception as err:
+            macbrobot.send_message(chat_id=chat_id, text=f"ERROR: Ошикбка при выполнении запроса\n{err}")
+        
+    return "ERROR: Не удалось выполнить запрос проверьте сайт"
 
 
 ###########################
-def get_by_id(obj_id):
+def get_by_id(obj_id, headers=None):
     url = 'https://api.shipper.space/v1/orders/{obj_id}'
     response = requests.get(url=url,
                             headers=headers)
     return response.json()
     
 
-def edit_product(obj_id, title: str, price: float):
+def edit_product(obj_id, title: str, price: float, headers=None):
     """ Функция для изменения названия и цены, на товаре который едет в Бишкек!!! """
 
     url = 'https://api.shipper.space/v1/orders/{obj_id}'
