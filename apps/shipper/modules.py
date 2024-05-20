@@ -88,14 +88,15 @@ class PackagesDB:
 def telegram_message_info(packages: List[Shipper], week: str):
     """Функция для формирования ответа в тг чат"""
 
-    message = f"Товары на {'текущей' if "next" not in week else 'следующей'} неделе *Shipper*\n```\n"
+    week = 'этой' if "next" not in week else 'следующей'
+    message = f"Товары на {week} неделе *Shipper*\n```\n"
     sum_price = 0
     for package in packages:
-        price = round(package.weight * package.customer.tarif, 2)
+        price = round(package.weight * package.customer_shipper.tarif, 2)
         sum_price+=price
-        message+=f"{package.name} – {package.customer.name} – {price}"
+        message+=f"{package.title} – {package.customer_shipper.full_name} – {price}"
     
-    sum_price_in_soms = sum_price * config('KGS')
+    sum_price_in_soms = sum_price * int(config('KGS'))
     message+=f"```\nИтого на следующей неделе: *${sum_price}*\nВ сомах: *{sum_price_in_soms}*"
 
-    return 
+    return message

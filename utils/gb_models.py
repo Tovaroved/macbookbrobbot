@@ -10,11 +10,11 @@ class Customer(db.Model):
     password = db.Column(db.String(255), nullable=False)
     token = db.Column(db.String(255), nullable=True)
     cookie = db.Column(db.Text, nullable=True)
-    tarif = db.Columns(db.Integer, nullable=False)
-    sh_packs = db.relationship('Shipper', backref='customer',
+    tarif = db.Column(db.Integer, nullable=False)
+    sh_packs = db.relationship('Shipper', backref='customer_shipper',
                                 lazy='dynamic')
-    ls_packs = db.relationship('Lifeshop', backref='customer',
-                                lazy='dynamic')
+    # ls_packs = db.relationship('Lifeshop', backref='customer_lifeshop',
+    #                             lazy='dynamic')
 
     def __str__(self):
         return self.full_name
