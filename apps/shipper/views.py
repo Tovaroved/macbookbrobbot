@@ -7,6 +7,10 @@ from .modules import PackagesDB, telegram_message_info
 
 shipperRouter = Blueprint('shipper', __name__, url_prefix='/shipper')
 
+@shipperRouter.route('/', methods=['GET'])
+def hello():
+    return {'message': 'Hello!!!'}
+
 
 @shipperRouter.route('/packages', methods=['GET','POST'])
 def get_data():
