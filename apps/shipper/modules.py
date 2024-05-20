@@ -89,7 +89,7 @@ def telegram_message_info(packages: List[Shipper], week: str):
     """Функция для формирования ответа в тг чат"""
 
     week = 'этой' if "next" not in week else 'следующей'
-    message = f"Товары на {week} неделе *Shipper*\n```\n"
+    message = f"Товары на {week} неделе <b>Shipper</b>\n"
     sum_price = 0
     for package in packages:
         price = round(package.weight * package.customer_shipper.tarif, 2)
@@ -97,6 +97,6 @@ def telegram_message_info(packages: List[Shipper], week: str):
         message+=f"{package.title} – {package.customer_shipper.full_name} – {price}"
     
     sum_price_in_soms = sum_price * int(config('KGS'))
-    message+=f"```\nИтого на следующей неделе: *${sum_price}*\nВ сомах: *{sum_price_in_soms}*"
+    message+=f"Итого на следующей неделе: <b>${sum_price}</b>\nВ сомах: <b>{sum_price_in_soms}</b>"
 
     return message
