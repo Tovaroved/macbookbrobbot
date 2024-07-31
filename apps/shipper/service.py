@@ -6,15 +6,15 @@ def get_list():
     url = 'https://api.shipper.space/v1/orders/in_progress'
     max_retries = 3
     for attempt in range(max_retries):
-        # try:
-        response_uran = requests.get(url=url, headers={"Authorization":config('uran')})
-        response_altai = requests.get(url=url, headers={"Authorization": config('altai')})
+        try:
+            response_uran = requests.get(url=url, headers={"Authorization":config('uran')})
+            response_altai = requests.get(url=url, headers={"Authorization": config('altai')})
 
-        print(response_altai, response_uran)
-        return {'sulaimanovuran@gmail.com': response_uran.json(), 'macbookbrogoods@gmail.com': response_altai.json()}
+            print(response_altai, response_uran)
+            return {'sulaimanovuran@gmail.com': response_uran.json(), 'macbookbrogoods@gmail.com': response_altai.json()}
         
-        # except Exception as err:
-        #     return f"ERROR: Ошибка при выполнении запроса\n{err}"
+        except Exception as err:
+            return f"ERROR: Ошибка при выполнении запроса\n{err}"
         
     return "ERROR: Не удалось выполнить запрос проверьте сайт"
 
