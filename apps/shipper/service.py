@@ -9,9 +9,21 @@ def get_list():
         try:
             response_uran = requests.get(url=url, headers={"Authorization":config('uran')})
             response_altai = requests.get(url=url, headers={"Authorization": config('altai')})
+            response_ilia = requests.get(url=url, headers={"Authorization": config('ilia')})
+            response_eva = requests.get(url=url, headers={"Authorization": config('eva')})
+            response_alina = requests.get(url=url, headers={"Authorization": config('alina')})
+            response_gulnur = requests.get(url=url, headers={"Authorization": config('gulnur')})
 
             print(response_altai, response_uran)
-            return {'sulaimanovuran@gmail.com': response_uran.json(), 'macbookbrogoods@gmail.com': response_altai.json()}
+            return {
+                    'sulaimanovuran@gmail.com': response_uran.json(), 
+                    'macbookbrogoods@gmail.com': response_altai.json(),
+                    'macbookbroair@gmail.com': response_ilia.json(),
+                    'liketka973@gmail.com': response_eva.json(),
+                    'macbookbroreserve@gmail.com': response_alina.json(),
+                    'gruzinka41@yandex.ru': response_gulnur.json()
+
+                    }
         
         except Exception as err:
             return f"ERROR: Ошибка при выполнении запроса\n{err}"
