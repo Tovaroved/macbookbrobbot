@@ -60,6 +60,8 @@ def update_google_sheets(links_models: dict):
                 wks.update(f'E{finded_row.row}', insider_price)
 
             except Exception as ex:
+                with open("errors.txt", "a+") as file:
+                    file.write(str(ex))
                 if 'quota' in str(ex).lower():
                     print("Превышен лимит запросов. Ожидание перед повторной попыткой...")
                     time.sleep(63)  # Подождите минуту перед повторной попыткой
