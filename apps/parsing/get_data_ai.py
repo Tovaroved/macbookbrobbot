@@ -42,8 +42,8 @@ def get_data(url, headers, model) -> dict:
 
                 else:
                     best_price = row.find('td', class_=re.compile('bold')).find('a').text
-                
-                best_price = int(float(best_price.replace('$', '').replace(',', '')))
+
+                best_price = int(float(best_price.split()[0].replace('$', '').replace(',', '')))
 
             except AttributeError:
                 best_price = row.find('td', class_='item-price').text
