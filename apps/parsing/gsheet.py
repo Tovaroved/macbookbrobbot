@@ -1,10 +1,25 @@
 import gspread
 import time
+from flask import Blueprint
 
 from .models_articles import *
 from .get_data_ai import get_data
 
-links_models = {
+gsheetRouter = Blueprint('gsheet', __name__, url_prefix='/gsheet')
+
+@gsheetRouter.route('/', methods=['GET'])
+def update_google_sheets():
+
+    """Авторизация"""
+    sa = gspread.service_account()
+
+    """Подключаемся к документу"""
+    sh = sa.open("MacPython")
+
+    """Подключаемся к странице"""
+    wks = sh.worksheet('Apple Edu (копия)')
+
+    links_models = {
     #Air 13" M2
     url_air_13_m2: air_13_m2,
 
@@ -29,17 +44,6 @@ links_models = {
     #Mac Mini M2 & M2 Pro
     url_macmini_m2_pro: macmini_m2_pro
     }
-
-
-def update_google_sheets(links_models: dict):
-    """Авторизация"""
-    sa = gspread.service_account()
-
-    """Подключаемся к документу"""
-    sh = sa.open("MacPython")
-
-    """Подключаемся к странице"""
-    wks = sh.worksheet('Apple Edu (копия)')
 
     "Проходимся по каждой ссылке и запускаем для каждой модели функцию для сбора цен"
     for url, models in links_models.items():
@@ -70,15 +74,11 @@ def update_google_sheets(links_models: dict):
                     print(ex)
                 time.sleep(10)
 
-    print('DONE')
+    return {"status":"success", "message": "Обновлено"}
 
 
+    # # cell = wks.find("MLY03")
 
+    # # print((cell.row, cell.col))
 
-update_google_sheets(links_models=links_models)
-
-    # cell = wks.find("MLY03")
-
-    # print((cell.row, cell.col))
-
-    # wks.update(f"E{cell.row}", "Hello")
+    # # wks.update(f"E{cell.row}", "Hello")
