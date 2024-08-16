@@ -58,6 +58,7 @@ def update_google_sheets(links_models: dict):
                 insider_price = models[article][0]
 
                 wks.update(f'E{finded_row.row}', insider_price)
+                time.sleep(10)
 
             except Exception as ex:
                 with open("errors.txt", "a+") as file:
